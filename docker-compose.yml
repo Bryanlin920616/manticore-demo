@@ -1,0 +1,37 @@
+services:
+  manticore:
+    image: manticoresearch/manticoresearch:latest
+    container_name: manticore-search
+    ports:
+      - "9306:9306"  # for MySQL clients
+      - "9308:9308"  # for HTTP clients
+      - "9312:9312"  # for inter-manticore communication
+    environment:
+      - MANTICORE_CONFIG_FILE=/etc/manticore.conf
+    volumes:
+      - ./manticore.conf:/etc/manticore.conf
+      - ./data:/var/lib/manticore
+    networks:
+      - manticore_network
+    restart: unless-stopped
+
+  # mysql:
+  #   image: mysql:5.7
+  #   container_name: mysql-db
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: examplepassword
+  #     MYSQL_DATABASE: mydb
+  #     MYSQL_USER: myuser
+  #     MYSQL_PASSWORD: mypass
+  #   volumes:
+  #     - mysql-data:/var/lib/mysql
+  #   networks:
+  #     - manticore_network
+  #   restart: unless-stopped
+
+# volumes:
+#   mysql-data:
+
+# networks:
+#   manticore_network:
+#     driver: bridge
