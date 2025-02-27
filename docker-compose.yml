@@ -1,37 +1,24 @@
 services:
   manticore:
-    image: manticoresearch/manticoresearch:latest
-    container_name: manticore-search
-    ports:
-      - "9306:9306"  # for MySQL clients
-      - "9308:9308"  # for HTTP clients
-      - "9312:9312"  # for inter-manticore communication
+    container_name: manticore
+    image: manticoresearch/manticore
     environment:
-      - MANTICORE_CONFIG_FILE=/etc/manticore.conf
+      - EXTRA=1 #  enable Manticore Columnar Library⁠,  Manticore Buddy⁠ during runtime
+      - CREATE_PLAIN_TABLES=1 
+    restart: always
+    ports:
+      - 9306:9306 # for MySQL clients
+      - 9308:9308 # for HTTP clients
+      # - "9312:9312"  # for inter-manticore communication
+    ulimits:
+      nproc: 65535
+      nofile:
+         soft: 65535
+         hard: 65535
+      memlock:
+        soft: -1
+        hard: -1
     volumes:
-      - ./manticore.conf:/etc/manticore.conf
       - ./data:/var/lib/manticore
-    networks:
-      - manticore_network
-    restart: unless-stopped
-
-  # mysql:
-  #   image: mysql:5.7
-  #   container_name: mysql-db
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: examplepassword
-  #     MYSQL_DATABASE: mydb
-  #     MYSQL_USER: myuser
-  #     MYSQL_PASSWORD: mypass
-  #   volumes:
-  #     - mysql-data:/var/lib/mysql
-  #   networks:
-  #     - manticore_network
-  #   restart: unless-stopped
-
-# volumes:
-#   mysql-data:
-
-# networks:
-#   manticore_network:
-#     driver: bridge
+      - ./manticore.conf:/etc/manticoresearch/manticore.conf
+      - ./cn_wenyan.csv:/mnt/cn_wenyan.csv
