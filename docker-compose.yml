@@ -3,8 +3,8 @@ services:
     container_name: manticore
     image: manticoresearch/manticore
     environment:
-      - EXTRA=1 #  enable Manticore Columnar Library⁠,  Manticore Buddy⁠ during runtime
-      - CREATE_PLAIN_TABLES=1 
+      - EXTRA=1 #  enable Manticore Columnar Library⁠,  Manticore Buddy(for feature like fuzzy search) during runtime
+      - CREATE_PLAIN_TABLES=1 # build all plain tables, fill table name to build only specific plain tables
     restart: always
     ports:
       - 9306:9306 # for MySQL clients
@@ -21,4 +21,4 @@ services:
     volumes:
       - ./data:/var/lib/manticore
       - ./manticore.conf:/etc/manticoresearch/manticore.conf
-      - ./cn_wenyan.csv:/mnt/cn_wenyan.csv
+      - ./cn_wenyan_head.csv:/mnt/cn_wenyan.csv

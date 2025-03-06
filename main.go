@@ -24,9 +24,14 @@ func searchWenyan() {
 	searchRequest := Manticoresearch.NewSearchRequest(tableName)
 	searchQuery := Manticoresearch.NewSearchQuery()
 
-	// encodedURL := url.QueryEscape("https://zh.wikisource.org/wiki?")
+	// url查不到，可能是因為indexing segmentation的方式？
+	// encodedURL := url.QueryEscape("https://zh.wikisource.org/wiki?curid=276713")
 	// searchQuery.QueryString = "@url " + encodedURL
-	searchQuery.QueryString = "@text 屈原"
+
+	// encodedURL := url.QueryEscape("羣書考索)") // 似乎是encoding的問題，這段也查不到，應該要查得到的
+	// searchQuery.QueryString = "@text 屈原 @title " + encodedURL
+	searchQuery.QueryString = "@text 屈原 @title 羣書考索"
+
 	searchRequest.Query = searchQuery
 
 	// Execute search
