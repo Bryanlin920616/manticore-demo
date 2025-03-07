@@ -12,6 +12,7 @@ CREATE TABLE inspiration (
 ) min_infix_len='2'
   charset_table='cjk, non_cjk'
   morphology='icu_chinese, lemmatize_en'
+  wordforms = '/var/lib/manticore/wordforms.txt'
   stopwords='zh';
 
 INSERT INTO inspiration (

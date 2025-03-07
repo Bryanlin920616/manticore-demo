@@ -22,6 +22,7 @@ services:
       - ./manticore.conf:/etc/manticoresearch/manticore.conf
       - ./data:/var/lib/manticore
       # - ./init-scripts:/init-scripts
+      - ./wordforms.txt:/var/lib/manticore/wordforms.txt
       - ./init-scripts/create-tables.sql:/sandbox.sql
     # command: >
     #   sh -c "
