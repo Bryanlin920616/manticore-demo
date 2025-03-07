@@ -4,8 +4,8 @@ services:
     image: manticoresearch/manticore
     environment:
       - EXTRA=1 #  enable Manticore Columnar Library⁠,  Manticore Buddy(for feature like fuzzy search) during runtime
-      - CREATE_PLAIN_TABLES=1 # build all plain tables, fill table name to build only specific plain tables
-    restart: always
+      # - CREATE_PLAIN_TABLES=1 # build all plain tables, fill table name to build only specific plain tables. Went wrong if no table defined in config
+    # restart: always
     ports:
       - 9306:9306 # for MySQL clients
       - 9308:9308 # for HTTP clients
@@ -19,6 +19,13 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ./data:/var/lib/manticore
       - ./manticore.conf:/etc/manticoresearch/manticore.conf
-      - ./cn_wenyan_head.csv:/mnt/cn_wenyan.csv
+      - ./data:/var/lib/manticore
+      # - ./init-scripts:/init-scripts
+      - ./init-scripts/create-tables.sql:/sandbox.sql
+    # command: >
+    #   sh -c "
+    #     /usr/bin/searchd -c /etc/manticore/manticore.conf &&
+    #     chmod +x /init-scripts/init-manticore.sh &&
+    #     /init-scripts/init-manticore.sh
+    #   "
