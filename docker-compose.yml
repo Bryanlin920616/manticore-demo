@@ -11,11 +11,11 @@ services:
       - 9308:9308 # for HTTP clients
       # - "9312:9312"  # for inter-manticore communication
     ulimits:
-      nproc: 65535
-      nofile:
+      nproc: 65535 # max number of processes
+      nofile: # max number of open files
          soft: 65535
          hard: 65535
-      memlock:
+      memlock: # allow unlimited memory locking to prevent swapping to disk
         soft: -1
         hard: -1
     volumes:
